@@ -6,15 +6,26 @@ const bgp = chrome.extension.getBackgroundPage();
 scrapeBtn.onclick = function (element) {
   chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
     var url = tabs[0].url;
-    bgp.console.log(url);
 
-    insertReviews(url);
+    //let timerId = setInterval(() => yoinkAll(), 1000);
+    //setTimeout(() => { clearInterval(timerId); }, 10000);
+
+    yoinkAll();
+
+    //insertReviews(url);
   });
 };
 
 function insertReviews(url) {
-  let searchTerm = url.match("[^\/]*$");
-  bgp.console.log('Attempting to fetch from ' + searchTerm);
+
+  let searchTerm;
+
+  if(url.indexOf('?') === -1)
+    searchTerm = url.match("[^\/]*$");
+ else
+    searchTerm = Array.from(url.matchAll(/([^\/]*)\?/g), m => m[1]);
+
+    bgp.console.log('Attempting to fetch from ' + searchTerm);
 
   client.reviews(searchTerm.toString()).then(response => {
     response.jsonBody.reviews.forEach(async (review) => {
@@ -41,4 +52,18 @@ function insertReviews(url) {
   }).catch(e => {
     bgp.console.log(e);
   })
+}
+
+function yoinkAll() {
+  client.search({
+    latitude: 39.4873,
+    longitude: -37.3954,
+    limit: 50
+  }).then(response => {
+    response.jsonBody.businesses.forEach(async (business) => {
+      bgp.console.log(business.url);
+    });
+  }).catch(e => {
+    bgp.console.log(e);
+  });
 }
