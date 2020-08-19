@@ -1,0 +1,28 @@
+  {
+    "name": "Fake Review Detection Scraping",
+    "version": "1.0",
+    "description": "Scrapes reviews from 3rd party sites for research purposes",
+    "icons": {
+      "128": "icons/catflip.png"
+    },
+    "permissions": [
+      "declarativeContent",
+      "storage",
+      "activeTab",
+      "http://*/",
+      "https://*/"
+    ],
+    "background": {
+      "scripts": [
+        "content.js"
+      ],
+      "persistent": false
+    },
+    "page_action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "128": "icons/catflip.png"
+      }
+    },
+    "manifest_version": 2
+  }

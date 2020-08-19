@@ -1,0 +1,6 @@
+div.scrapeDiv button {
+    background:url(/icons/btn.png) no-repeat;
+    width: 100px;
+    height: 100px;
+    border: none;
+}
